@@ -1,0 +1,45 @@
+Site: https://confluencewor.aimsites.nl/display/WORS2G1/Robot+laten+rijden
+
+1.3. Echte robot (handmatige besturing met controller)
+
+Om de robot handmatig met een controller te laten besturen, voer je de 
+volgende stappen uit.
+
+Zorg dat je de stappen hebt gevolgd voor het crosscompilen op de PI. 
+Hiervoor hebben we geen SEEED nodig. Voer vervolgens de volgende stappen uit:
+
+    Sluit de meegeleverde controller aan op jouw laptop.
+    Zet de robot aan door de sleutel te draaien (het opstarten van de seeed en Pi kan even duren).
+    Verbind met het netwerk van de robot (RUT955_E85E).
+    Start een terminal en voer de volgende commando's uit.
+
+sshpass -p robotwor ssh -t wor@192.168.1.10 "sudo -i; cd_repo.sh"
+. cd_deploy.sh
+cd {build_folder}
+. install/setup.bash
+ros2 launch robotlaunch pi.launch.py
+
+    Start nog een terminal en voer de volgende commando's uit.
+
+Stsshpass -p robotwor ssh -t wor@192.168.1.10 "sudo -i; cd_repo.sh"
+. cd_deploy.sh
+cd {build_folder}
+. install/setup.bash
+ros2 service call /relay std_srvs/srv/SetBool "{data: True}"
+
+    Start ten slotte een derde terminal en voer de volgende commando's uit:
+
+. install/setup.bash
+ros2 run manual_controller manual_controller
+
+
+
+1.3.1. Bijbehorende controls (controller)
+
+* ---Controls---
+ * Left joystick X-axis: Steering
+ * B: Brake
+ * Y: Drive forward (5kmh)
+ * A: Drive in reverse (5kmh)
+ * Menu button: Brake and close ManualController
+ * ---End---
